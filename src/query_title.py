@@ -1,6 +1,6 @@
 """Queries the title."""
 
-from asyncio import create_task
+from asyncio import Task, create_task
 
 from playwright.async_api import Locator, Page
 
@@ -24,7 +24,7 @@ async def query_title(page: Page, office: str, year: str, title: str) -> None:
     if not await page.evaluate(GET_TERMS_AGREEDMENT_SCRIPT):
         await page.click(ACCEPT_TERMS_BTN)
 
-    turnstile_resolve_task = create_task(resolve_turnstile(page))
+    turnstile_resolve_task: Task[None] = create_task(resolve_turnstile(page))
 
     office_input: Locator = page.locator("#cboOficina")
     await office_input.select_option(office)
