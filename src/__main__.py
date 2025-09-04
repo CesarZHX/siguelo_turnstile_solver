@@ -20,9 +20,8 @@ async def main() -> None:
         browser_type: BrowserType = playwright.chromium
         browser: Browser = await browser_type.launch(channel=CHANNEL, headless=HEADLESS)
         browser_context: BrowserContext = await browser.new_context()
-        page: Page = await browser_context.new_page()
 
-        await query_title(page, OFFICE, YEAR, TITLE)
+        page: Page = await query_title(browser_context, OFFICE, YEAR, TITLE)
         input("Press Enter to close the browser...")
 
         await page.close()
