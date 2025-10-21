@@ -14,6 +14,8 @@ Element.prototype.attachShadow = function (init) {
     return this._attachShadow( { ...init, mode: "open" } );
 };
 """
+AD_IMG_LOCATOR: str = 'img[alt="Publicidad"]'
+CLOSE_AD_BUTTON_LOCATOR: str = f'button[aria-label="Cerrar"]:has(+ {AD_IMG_LOCATOR})'
 
 
 async def query_title(
@@ -23,6 +25,10 @@ async def query_title(
     page: Page = await browser_context.new_page()
     await page.add_init_script(_OPEN_CLOSED_SHADOWS_SCRIPT)
     assert await page.goto(SIGUELO_URL)
+
+    close_ad_button: Locator = page.locator(CLOSE_AD_BUTTON_LOCATOR)
+    if await close_ad_button.is_visible():
+        await close_ad_button.click()
 
     if not await page.evaluate(GET_TERMS_AGREEDMENT_SCRIPT):
         await page.click(ACCEPT_TERMS_BTN)
