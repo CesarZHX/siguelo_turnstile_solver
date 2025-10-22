@@ -2,7 +2,7 @@
 
 from re import search
 
-from playwright.async_api import Locator, Page
+from patchright.async_api import Locator, Page
 
 SITEKEY_PATTERN: str = r"0x[0-9A-Za-z]+"
 IFRAME_SELECTOR: str = 'iframe[id^="cf-chl-widget-"]'

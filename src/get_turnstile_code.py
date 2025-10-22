@@ -1,6 +1,6 @@
 """Get the captcha code."""
 
-from playwright.async_api import Page
+from patchright.async_api import Page
 
 from .config import TWO_CAPTCHA
 from .get_sitekey import get_sitekey

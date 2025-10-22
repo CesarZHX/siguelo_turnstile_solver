@@ -1,6 +1,6 @@
 """Resolve the captcha."""
 
-from playwright.async_api import Page
+from patchright.async_api import Page
 
 from .get_turnstile_code import get_turnstile_code
 

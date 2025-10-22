@@ -2,7 +2,7 @@
 
 from asyncio import run
 
-from playwright.async_api import (
+from patchright.async_api import (
     Browser,
     BrowserContext,
     BrowserType,
@@ -11,7 +11,7 @@ from playwright.async_api import (
 )
 
 from .config import CHANNEL, HEADLESS, OFFICE, TITLE, YEAR
-from .query_title import query_title
+from .pom.siguelo.query_title import QueryTitlePage
 
 
 async def main() -> None:
@@ -20,13 +20,12 @@ async def main() -> None:
         browser_type: BrowserType = playwright.chromium
         browser: Browser = await browser_type.launch(channel=CHANNEL, headless=HEADLESS)
         browser_context: BrowserContext = await browser.new_context()
+        page: Page = await browser_context.new_page()
 
-        page: Page = await query_title(browser_context, OFFICE, YEAR, TITLE)
+        query_title_page: QueryTitlePage = QueryTitlePage(page)
+        await query_title_page.query_title(OFFICE, YEAR, TITLE)
+
         input("Press Enter to close the browser...")
-
-        await page.close()
-        await browser_context.close()
-        await browser.close()
 
 
 if __name__ == "__main__":

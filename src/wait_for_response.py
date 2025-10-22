@@ -1,6 +1,6 @@
 """Waits for the result."""
 
-from playwright.async_api import Locator, Page
+from patchright.async_api import Locator, Page
 
 from .exceptions import SEARCH_ERRORS, SearchError
 
