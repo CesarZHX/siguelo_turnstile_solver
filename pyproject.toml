@@ -5,7 +5,7 @@ description = "siguelo_turnstile_solver"
 authors = [
     { name = "CesarZHX", email = "112836949+CesarZHX@users.noreply.github.com" },
 ]
-dependencies = ["patchright>=1.52.3", "pydantic>=2.12.3", "2captcha-python>=1.5.1"]
+dependencies = ["patchright>=1.55.2", "pydantic>=2.12.3", "2captcha-python>=1.5.1"]
 requires-python = ">=3.12"
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -20,11 +20,12 @@ dev = [
     "black>=25.1.0",
     "isort>=6.0.1",
     "mypy>=1.17.0",
-    "pytest-asyncio>=1.2.0",
     "python-dotenv>=1.1.1",
+    "pytest-playwright-asyncio>=0.7.1",
 ]
 
 [tool.pytest.ini_options]
+addopts = "--browser chromium"
 asyncio_default_fixture_loop_scope = "session"
 asyncio_default_test_loop_scope = "session"
 asyncio_mode = "auto"

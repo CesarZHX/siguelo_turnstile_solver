@@ -15,7 +15,7 @@ class TurnstileSolver:
 
     async def solve_turnstile(self, url: str, sitekey: str) -> str:
         """Returns the turstile code."""
-        assert (solution := await to_thread(self._two_captcha.turnstile, url, sitekey))
+        assert (solution := await to_thread(self._two_captcha.turnstile, sitekey, url))
         code = solution["code"]
         assert isinstance(code, str)
         return code

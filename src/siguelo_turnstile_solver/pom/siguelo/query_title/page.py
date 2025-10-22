@@ -16,12 +16,20 @@ _ERROR_CODE_TD_SELECTOR: str = f"{_ALERT_DIV_SELECTOR} tfoot td"
 _RESPONSE_INDICATORS: tuple[str, ...] = (_ERROR_CODE_TD_SELECTOR, _TIMER_INPUT_SELECTOR)
 
 _CHECKBOX_SELECTOR: str = "input[type='checkbox']"
-_SUCCESS_CIRCLE_SELECTOR: str = "circle.success-circle"
+_SUCCESS_CIRCLE_SELECTOR: str = "circle.success-circle:visible"
+
 _TURNSTILE_RESPONSE_INDICATORS: tuple[str, ...]
 _TURNSTILE_RESPONSE_INDICATORS = (_CHECKBOX_SELECTOR, _SUCCESS_CIRCLE_SELECTOR)
 
 _TURNSTILE_IFRAME_SELECTOR: str = 'iframe[id^="cf-chl-widget-"]'
 _SITEKEY_PATTERN: Pattern = compile(r"0x[0-9A-Za-z]+")
+
+_OPEN_CLOSED_SHADOWS_SCRIPT: str = """
+Element.prototype._attachShadow = Element.prototype.attachShadow;
+Element.prototype.attachShadow = function (init) {
+    return this._attachShadow( { ...init, mode: "open" } );
+};
+"""
 
 
 class QueryTitlePage:
@@ -42,8 +50,8 @@ class QueryTitlePage:
 
         self.turnstile_iframe: Locator = page.locator(_TURNSTILE_IFRAME_SELECTOR)
         iframe: FrameLocator = page.frame_locator(_TURNSTILE_IFRAME_SELECTOR)
-        self.check_box: Locator = iframe.locator("input[type='checkbox']")
-        self.success_circle: Locator = iframe.locator("circle.success-circle")
+        self.check_box: Locator = iframe.locator(_CHECKBOX_SELECTOR)
+        self.success_circle: Locator = iframe.locator(_SUCCESS_CIRCLE_SELECTOR)
         tri: Locator = iframe.locator(", ".join(_TURNSTILE_RESPONSE_INDICATORS))
         self.turnstile_response_indicator: Locator = tri
 
@@ -65,6 +73,8 @@ class QueryTitlePage:
 
     async def _go_to_form(self) -> None:
         """Navigates to the form."""
+        if self._solver:
+            await self.page.add_init_script(_OPEN_CLOSED_SHADOWS_SCRIPT)
         await self._check_user_agent()
         assert await self.page.goto(self.url)
         await self._clear_ads()
