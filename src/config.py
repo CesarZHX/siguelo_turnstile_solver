@@ -15,4 +15,3 @@ TWO_CAPTCHA: TwoCaptcha = TwoCaptcha(TWO_CAPTCHA_API_KEY)
 SIGUELO_URL: str = "https://sigueloplus.sunarp.gob.pe/siguelo/"
 
 CHANNEL: str = "msedge"
-HEADLESS: bool = False
