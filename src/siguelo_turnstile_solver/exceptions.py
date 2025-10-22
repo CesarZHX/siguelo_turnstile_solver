@@ -1,0 +1,4 @@
+"""Exceptions."""
+
+
+class SigueloPlusException(Exception): ...
