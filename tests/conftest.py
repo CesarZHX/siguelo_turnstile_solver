@@ -20,7 +20,7 @@ from siguelo_turnstile_solver.utils.get_user_agent import get_headed_user_agent
 
 load_dotenv()
 
-_KEYS: tuple[str, ...] = ("REGISTRY_OFFICE", "YEAR", "TITLE")
+_KEYS: tuple[str, ...] = ("REGISTRY_OFFICE", "YEAR", "NUMBER")
 _OFFICE, _YEAR, _TITLE = (environ[f"SIGUELO_TITLE_{key}"] for key in _KEYS)
 _TWO_CAPTCHA_API_KEY: str | None = getenv("2CAPTCHA_API_KEY")
 
