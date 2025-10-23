@@ -20,18 +20,19 @@ from siguelo_turnstile_solver.utils.get_user_agent import get_headed_user_agent
 
 load_dotenv()
 
-OFFICE, YEAR, TITLE = (environ[f"SIGUELO_{key}"] for key in ("OFFICE", "YEAR", "TITLE"))
-TWO_CAPTCHA_API_KEY: str | None = getenv("2CAPTCHA_API_KEY")
+_KEYS: tuple[str, ...] = ("REGISTRY_OFFICE", "YEAR", "TITLE")
+_OFFICE, _YEAR, _TITLE = (environ[f"SIGUELO_TITLE_{key}"] for key in _KEYS)
+_TWO_CAPTCHA_API_KEY: str | None = getenv("2CAPTCHA_API_KEY")
 
 
 @fixture(scope="session")
 def title() -> Title:
-    return Title(OFFICE, YEAR, TITLE)
+    return Title(_OFFICE, _YEAR, _TITLE)
 
 
 @fixture(scope="session")
 def turnstile_solver() -> TurnstileSolver | None:
-    return TurnstileSolver(TWO_CAPTCHA_API_KEY) if TWO_CAPTCHA_API_KEY else None
+    return TurnstileSolver(_TWO_CAPTCHA_API_KEY) if _TWO_CAPTCHA_API_KEY else None
 
 
 @fixture(scope="session")
