@@ -80,11 +80,13 @@ async def two_captcha_page(
 async def two_captcha_query_title_page(
     two_captcha_page: Page, turnstile_solver: TurnstileSolver
 ) -> AsyncGenerator[QueryTitlePage, None]:
-    yield QueryTitlePage(two_captcha_page, turnstile_solver)
+    yield QueryTitlePage(
+        two_captcha_page, turnstile_solver, open_closed_shadow_roots=True
+    )
 
 
 @fixture(scope="session")
 async def patched_query_title_page(
-    patched_page: Page,
+    patched_page: Page, turnstile_solver: TurnstileSolver
 ) -> AsyncGenerator[QueryTitlePage, None]:
-    yield QueryTitlePage(patched_page)
+    yield QueryTitlePage(patched_page, turnstile_solver)

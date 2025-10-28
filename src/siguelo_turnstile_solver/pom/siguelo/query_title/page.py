@@ -37,10 +37,22 @@ class QueryTitlePage:
 
     url: str = "https://sigueloplus.sunarp.gob.pe/siguelo/"
 
-    def __init__(self, page: Page, solver: TurnstileSolver | None = None):
-        """Initializes the QueryTitlePage."""
+    def __init__(
+        self,
+        page: Page,
+        solver: TurnstileSolver | None = None,
+        open_closed_shadow_roots: bool = False,
+    ):
+        """Initializes the QueryTitlePage.
+
+        NOTE: open_closed_shadow_roots must be used with caution.
+        This arg adds an initialization script that is detectable,
+        especially with patchright, but works pretty well with playwright itself.
+        This init script may break the page if used with patchright.
+        """
         self.page: Page = page
         self._solver: TurnstileSolver | None = solver
+        self._open_closed_shadow_roots: bool = open_closed_shadow_roots
 
         self.close_ad_button: Locator = page.locator('button[aria-label="Cerrar"]')
         self.accept_terms_button: Locator = page.locator(".btn-sunarp-cyan")
@@ -73,7 +85,7 @@ class QueryTitlePage:
 
     async def _go_to_form(self) -> None:
         """Navigates to the form."""
-        if self._solver:
+        if self._open_closed_shadow_roots:
             await self.page.add_init_script(_OPEN_CLOSED_SHADOWS_SCRIPT)
         await self._check_user_agent()
         assert await self.page.goto(self.url)
